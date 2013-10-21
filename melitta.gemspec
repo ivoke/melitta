@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["michael.dietz@ivoke.de"]
   spec.description   = "Filter user input without loosing state"
   spec.summary       = ""
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/ivoke/melitta"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
