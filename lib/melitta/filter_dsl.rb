@@ -39,7 +39,7 @@ class Melitta::FilterDsl
   def allow field, &block
     if block_given?
       filter = Melitta::Filters::PassThrough.new
-      second_level_filter = evaluate(Melitta::Filters::Tre, block)
+      second_level_filter = evaluate(Melitta::Filters::Tree, block)
       filter.filter(field, second_level_filter)
     else
       filter = Melitta::Filters::PassThrough.new
