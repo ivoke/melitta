@@ -2,7 +2,7 @@ class Melitta::FilterDsl
 
   attr_reader :receiver
 
-  def self.evaluate type, &block
+  def self.evaluate type=Melitta::Filters::Tree, &block
     filter = new(type)
     filter.instance_eval &block
     filter.receiver

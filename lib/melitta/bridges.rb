@@ -1,1 +1,1 @@
-require_relative './bridges/base'
+require_relative './bridges/active_model'

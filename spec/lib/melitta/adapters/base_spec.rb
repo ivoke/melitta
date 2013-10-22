@@ -1,6 +1,6 @@
 require_relative '../../../spec_helper'
 
-describe Melitta::Bridges::Base do
+describe Melitta::Adapters::Base do
 
   describe ".filter" do
 
@@ -9,7 +9,7 @@ describe Melitta::Bridges::Base do
     end
 
     subject do
-      Class.new { include Melitta.filter }
+      Class.new { extend Melitta::Adapters::Base }
     end
 
     it "sets a filter" do
@@ -26,6 +26,13 @@ describe Melitta::Bridges::Base do
       subject.new
         .field_filter({})
         .must_be_kind_of(Melitta::Coercers::OptionalInput)
+    end
+
+    it "filters" do
+      subject.new
+        .field_filter({})
+        .output
+        .must_be_empty
     end
 
   end
