@@ -2,30 +2,31 @@ module Melitta::Adapters
 
   module Controller
 
-    def filter selector, resource=selector, &block
+    def filter selector, resource=selector, prefix=nil, &block
       selector = infer_selector(selector)
       resource = infer_resource_name(resource)
+      prefix   = prefix || selector
 
       filter = Melitta::FilterDsl.evaluate(&block)
-      class_variable_set(:"@@#{selector}_filter", filter)
+      class_variable_set(:"@@#{prefix}_filter", filter)
 
       class_eval <<-RUBY
-         def #{selector}_params
-          @#{selector}_params ||= begin
-            filter = self.class.class_variable_get(:"@@#{selector}_filter")
+         def #{prefix}_params
+          @#{prefix}_params ||= begin
+            filter = self.class.class_variable_get(:"@@#{prefix}_filter")
             filter.run(params.fetch(:"#{selector}", {}))
           end
         end
-        protected :"#{selector}_params"
+        protected :"#{prefix}_params"
       RUBY
 
       class_eval <<-RUBY
-         def #{selector}_form
-          @#{selector}_form ||= begin
-            Melitta::Bridges::ActiveModel.new(#{resource}).form(#{selector}_params)
+         def #{prefix}_form
+          @#{prefix}_form ||= begin
+            Melitta::Bridges::ActiveModel.new(#{resource}).form(#{prefix}_params)
           end
         end
-        protected :"#{selector}_form"
+        protected :"#{prefix}_form"
       RUBY
 
     end
